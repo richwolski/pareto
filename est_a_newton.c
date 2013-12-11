@@ -12,7 +12,7 @@
  * M = max value
  * m = mu = mean
  */
-double b;
+long double b;
 int Use_min;
 
 /*
@@ -34,16 +34,16 @@ char *Usage = "est_a_newton -m mu\n\
 #define ARGS "m:M:I:T:"
 
 int Iterations;
-double Tolerance;
+long double Tolerance;
 
 int
 main(int argc, char *argv[])
 {
 	int c;
-	double m;
-	double M;
-	double alpha;
-	double a;
+	long double m;
+	long double M;
+	long double alpha;
+	long double a;
 	int i;
 
 	Iterations = 1000;
@@ -96,46 +96,46 @@ main(int argc, char *argv[])
 
 
 	alpha = 0;
-	a = 0.5;	/* guess 0.5 */
+	a = 2.0/logl(M);	/* initial guess */
 	for(i=0 ; i < Iterations; i++) {
 		if(fabs(alpha-a) < Tolerance) {
 			break;
 		}
 		alpha = a;
-		a = a - (3.0*m*a*a*pow(M,a) + 
-			2.0*a*a*pow(M,2.0*a)-
-			a*a*pow(M,a)+
+		a = a - (3.0*m*a*a*powl(M,a) + 
+			2.0*a*a*powl(M,2.0*a)-
+			a*a*powl(M,a)+
 			M*a*a-
 			m-m*a*a + 
-			6.0*m*a*pow(M,2.0*a)-
-			2.0*a*a*pow(M,a+1.0)-
-			3.0*m*a*a*pow(M,2.0*a)-
-			6.0*m*a*pow(M,a)-
-			2.0*m*a*pow(M,3.0*a) - 
-			3.0*m*pow(M,2.0*a)+
+			6.0*m*a*powl(M,2.0*a)-
+			2.0*a*a*powl(M,a+1.0)-
+			3.0*m*a*a*powl(M,2.0*a)-
+			6.0*m*a*powl(M,a)-
+			2.0*m*a*powl(M,3.0*a) - 
+			3.0*m*powl(M,2.0*a)+
 			2.0*m*a-
-			a*a*pow(M,3.0*a)+
-			a*a*pow(M,2.0*a+1)-
-			a*pow(M,2.0*a+1)+
-			m*pow(M,3.0*a)+
-			a*pow(M,a)+
-			m*a*a*pow(M,3.0*a)-
-			2.0*a*pow(M,2.0*a)+
-			3.0*m*pow(M,a)+
-			a*pow(M,3.0*a)+
-			2.0*a*pow(M,a+1.0)-
+			a*a*powl(M,3.0*a)+
+			a*a*powl(M,2.0*a+1)-
+			a*powl(M,2.0*a+1)+
+			m*powl(M,3.0*a)+
+			a*powl(M,a)+
+			m*a*a*powl(M,3.0*a)-
+			2.0*a*powl(M,2.0*a)+
+			3.0*m*powl(M,a)+
+			a*powl(M,3.0*a)+
+			2.0*a*powl(M,a+1.0)-
 			a*M) / 
-			((pow(M,a)-1)*(-1.0*pow(M,a+1.0)+
+			((powl(M,a)-1)*(-1.0*powl(M,a+1.0)+
 			M+
-			pow(M,2.0*a)-
-			pow(M,a)+
-			a*a*pow(M,a)*log(M)-
-			a*pow(M,a)*log(M)-
-			pow(M,a+1.0)*a*a*log(M)+
-			pow(M,a+1.0)*a*log(M)));
+			powl(M,2.0*a)-
+			powl(M,a)+
+			a*a*powl(M,a)*logl(M)-
+			a*powl(M,a)*logl(M)-
+			powl(M,a+1.0)*a*a*logl(M)+
+			powl(M,a+1.0)*a*logl(M)));
 	}
 
-	printf("alpha: %f\n",a);
+	printf("alpha: %Lf\n",a);
 
 	return(0);
 }
